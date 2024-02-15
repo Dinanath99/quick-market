@@ -1,10 +1,11 @@
-import express from "express";
-import dotenv from "dotenv";
-import morgan from "morgan";
-import conntectDb from "./config/db.js";
+const dotenv = require("dotenv");
+dotenv.config();
+const express = require("express");
+
+const morgan = require("morgan");
+const conntectDb = require("./config/db.js");
 
 //config dotenv
-dotenv.config();
 //rest object
 const app = express();
 app.use(express.json());
