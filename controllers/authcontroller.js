@@ -48,7 +48,7 @@ const Loginrouter = async (req, res) => {
       if (isMatch) {
         res.status(200).send("Login successfull");
       } else {
-        res.send({ messege: "ivalid password" });
+        res.send({ messege: "ivalid credtional" });
       }
     }
   } catch (error) {
