@@ -1,5 +1,6 @@
 const userModel = require("../models/userModel.js");
 const { hashPassword, comparePassword } = require("../helpers/authHelper.js");
+var jwt = require("jsonwebtoken");
 
 //register controller
 const registerControler = async (req, res) => {
