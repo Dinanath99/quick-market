@@ -69,5 +69,10 @@ const Loginrouter = async (req, res) => {
     res.status(500).send({ messege: "error" });
   }
 };
+// test controller
 
-module.exports = { registerControler, Loginrouter };
+const testController = (req, res) => {
+  res.send("Protected route");
+};
+
+module.exports = { registerControler, Loginrouter, testController };
