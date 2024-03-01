@@ -46,8 +46,21 @@ const Loginrouter = async (req, res) => {
     //matching the password
     if (user) {
       const isMatch = await comparePassword(password, user.password);
+      const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
       if (isMatch) {
-        res.status(200).send("Login successfull");
+        res.status(200).send({
+          success: true,
+          messege: "login successfull",
+          user: {
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            address: user.address,
+          },
+          token: token,
+        });
       } else {
         res.send({ messege: "ivalid password" });
       }
