@@ -1,6 +1,6 @@
 const express = require("express");
 const authcontroller = require("../controllers/authcontroller.js");
-const requireSignIn = require("../middlewares/authMiddleware.js");
+const { requireSignIn, isAdmin } = require("../middlewares/authMiddleware.js");
 
 // router object
 const router = express.Router();
@@ -13,5 +13,5 @@ router.post("/login", authcontroller.Loginrouter);
 
 //test routes
 
-router.get("/test", requireSignIn, authcontroller.testController);
+router.get("/test", requireSignIn, isAdmin, authcontroller.testController);
 module.exports = router;
