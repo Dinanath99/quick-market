@@ -1,5 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+
+import { LuShoppingBag } from "react-icons/lu";
 
 const Header = () => {
   return (
@@ -17,13 +19,18 @@ const Header = () => {
           <span className="navbar-toggler-icon" />
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <NavLink to="/" className="navbar-brand" href="#">
-            Hidden brand
-          </NavLink>
+          <Link to="/" className="navbar-brand">
+            <LuShoppingBag /> QuickMarket
+          </Link>
           <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
-            <li className="nav-item active">
+            <li className="nav-item ">
               <NavLink to="/" className="nav-link" href="#">
                 Home <span className="sr-only"></span>
+              </NavLink>
+            </li>
+            <li className="nav-item ">
+              <NavLink to="/category" className="nav-link" href="#">
+                Category <span className="sr-only"></span>
               </NavLink>
             </li>
             <li className="nav-item">
