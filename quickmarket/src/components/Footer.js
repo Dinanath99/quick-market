@@ -7,7 +7,7 @@ const Footer = () => {
       <h4 className="text-center">@ Quick market all right reserved</h4>
       <p className="text-center mt-3">
         <Link to="/about">About</Link>|<Link to="/contact">Contact</Link>|
-        <Link to="/policy">policy</Link>|
+        <Link to="/Policy">policy</Link>|
       </p>
     </div>
   );
