@@ -10,8 +10,12 @@ const registerControler = async (req, res) => {
       return res.send("Please fill the data properly");
     }
     const user = await userModel.findOne({ email: email });
+    //existin user
     if (user) {
-      return res.send("User already exist");
+      return res.status(200).send({
+        success: false,
+        message: "ALready register please login",
+      });
     }
 
     //bcrypt password
