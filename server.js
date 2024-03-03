@@ -4,7 +4,11 @@ const express = require("express");
 const morgan = require("morgan");
 const mongodb = require("./config/db.js");
 
+const cors = require("cors");
+
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 
 //imprting mongoose model

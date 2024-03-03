@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
+import axios from "axios";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,8 +16,10 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, email, password, phone, address);
-    toast.success("Register successfull");
+    try {
+    } catch (error) {
+      toast.error("Something went wrong !");
+    }
   };
   return (
     <Layout title={"Register - Quickmarket "}>
