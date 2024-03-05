@@ -73,10 +73,19 @@ const Loginrouter = async (req, res) => {
     res.status(500).send({ messege: "error" });
   }
 };
+
+// forgot forgotPasswordController
+
+const forgotPasswordController = () => {};
 // test controller
 
 const testController = (req, res) => {
   res.send("Protected route");
 };
 
-module.exports = { registerControler, Loginrouter, testController };
+module.exports = {
+  registerControler,
+  Loginrouter,
+  testController,
+  forgotPasswordController,
+};
