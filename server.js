@@ -7,6 +7,7 @@ const cors = require("cors");
 const app = express();
 
 const categoryRoutes = require("./routes/categoryRoutes.js");
+const ProductRoutes = require("./routes/ProductRoutes.js");
 
 app.use(cors());
 app.use(express.json());
