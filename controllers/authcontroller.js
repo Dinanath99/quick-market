@@ -53,7 +53,7 @@ const Loginrouter = async (req, res) => {
     if (user) {
       const isMatch = await comparePassword(password, user.password);
       const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "7d",
+        expiresIn: "16d",
       });
       if (isMatch) {
         res.status(200).send({
@@ -64,6 +64,7 @@ const Loginrouter = async (req, res) => {
             email: user.email,
             phone: user.phone,
             address: user.address,
+            role: user.role,
           },
           token: token,
         });
