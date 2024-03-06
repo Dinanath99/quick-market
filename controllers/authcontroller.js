@@ -77,28 +77,33 @@ const Loginrouter = async (req, res) => {
 };
 
 // forgot forgotPasswordController
-
+// forgotPasswordController
 const forgotPasswordController = async (req, res) => {
   try {
-    cosnt[(email, answer, newPassword)] = req.body;
+    const { email, answer, newPassword } = req.body; // Change this line
     if (!email || !answer || !newPassword) {
       return res.status(400).send({
         message: "Please fill the data properly",
       });
     }
 
-    //check user email and answer
-    const user = await userModel.findOne({ email, answer });
-    // validation
-    if (!user) {
+    // Check user email
+    const user = await userModel.findOne({ email });
+    // Validation
+    if (!user || user.answer !== answer) {
+      // Also check if answer matches
       return res.status(400).send({
         success: false,
         message: "Wrong email or answer",
       });
     }
 
-    const hashed = await hashedPassword(newPassword);
-    await userModel.findByIdAndUpdate(user._id, { password: hashed });
+    // Hash new password
+    const hashedPassword = await hashPassword(newPassword);
+
+    // Update user password
+    await userModel.findByIdAndUpdate(user._id, { password: hashedPassword });
+
     res.status(200).send({
       success: true,
       message: "Password Reset Successfully",
@@ -107,11 +112,12 @@ const forgotPasswordController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      messege: "Something went wrong",
+      message: "Something went wrong",
       error,
     });
   }
 };
+
 // test controller
 
 const testController = (req, res) => {

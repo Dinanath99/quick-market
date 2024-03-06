@@ -62,16 +62,15 @@ const ForgotPassword = () => {
           <div className="mb-3">
             <input
               type="password"
-              value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
-              placeholder="Enter Your Password"
+              placeholder="Enter Your new Password"
               required
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            LOGIN
+            RESET
           </button>
         </form>
       </div>
