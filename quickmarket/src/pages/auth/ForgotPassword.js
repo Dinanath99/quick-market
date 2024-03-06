@@ -1,38 +1,28 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../auth/styles/authStyles.css";
 import Layout from "../../components/Layout";
-
-import { useAuth } from "../../context/auth";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [answer, setAnswer] = useState("");
-  const [auth, setAuth] = useAuth();
-
   const navigate = useNavigate();
-  const location = useLocation();
 
   // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/login", {
+      const res = await axios.post("/api/forgot-password", {
         email,
-        password,
+        newPassword,
+        answer,
       });
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state || "/");
+        navigate("/login");
       } else {
         toast.error(res.data.message);
       }
@@ -60,25 +50,25 @@ const ForgotPassword = () => {
           </div>
           <div className="mb-3">
             <input
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              className="form-control"
+              id="exampleInputEmail1"
+              placeholder="Enter your best friend name"
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Enter Your Password"
               required
             />
-          </div>
-          <div className="mb-3">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={() => {
-                navigate("/forgot-password");
-              }}
-            >
-              Forgot Password
-            </button>
           </div>
           <button type="submit" className="btn btn-primary">
             LOGIN

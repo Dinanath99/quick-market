@@ -101,7 +101,7 @@ const Register = () => {
           <div className="mb-3">
             <input
               type="text"
-              value={address}
+              value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               className="form-control"
               id="exampleInputEmail1"
