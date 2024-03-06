@@ -5,22 +5,30 @@ const { requireSignIn, isAdmin } = require("../middlewares/authMiddleware.js");
 // router object
 const router = express.Router();
 
-//routing for regiser
+//routing for register
 router.post("/register", authcontroller.registerControler);
 
-//LOGIN || POST
+// LOGIN || POST
 router.post("/login", authcontroller.Loginrouter);
 
-//forgot passsword
+// forgot password
 router.post("/forgot-password", authcontroller.forgotPasswordController);
-//test routes
 
+// test routes
 router.get("/test", requireSignIn, isAdmin, authcontroller.testController);
 
-//protected route auth
+// protected user route auth
 router.get("/user-auth", requireSignIn, (req, res) => {
   res.status(200).send({
     ok: true,
   });
 });
+
+// protected admin route auth
+router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
+  res.status(200).send({
+    ok: true,
+  });
+});
+
 module.exports = router;
