@@ -3,10 +3,10 @@ dotenv.config();
 const express = require("express");
 const morgan = require("morgan");
 const mongodb = require("./config/db.js");
-
 const cors = require("cors");
-
 const app = express();
+
+const categoryRoutes = require("./routes/categoryRoutes.js");
 
 app.use(cors());
 app.use(express.json());
@@ -18,7 +18,7 @@ const users = require("./models/userModel.js");
 const authRoutes = require("./routes/auth-router.js");
 
 app.use("/api", authRoutes); //for routing
-
+app.use("/api/category", categoryRoutes); // for routing
 //express app
 
 app.use(morgan("dev")); //for logging purpose in console window
