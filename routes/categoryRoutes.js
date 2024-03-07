@@ -28,7 +28,7 @@ router.put(
   isAdmin,
   updateCategoryController
 );
-//get ALl category
+//get ALL category
 router.get("/get-category", categoryController);
 
 //single category
