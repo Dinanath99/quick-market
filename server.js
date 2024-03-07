@@ -20,6 +20,8 @@ const authRoutes = require("./routes/auth-router.js");
 
 app.use("/api", authRoutes); //for routing
 app.use("/api/category", categoryRoutes); // for routing
+
+app.use("/api/product", ProductRoutes); // for product routing
 //express app
 
 app.use(morgan("dev")); //for logging purpose in console window
