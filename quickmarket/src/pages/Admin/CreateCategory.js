@@ -9,6 +9,8 @@ const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState("false");
+  const [updatedName, setupdatedName] = useState("");
 
   //handle formf
   const handleSubmit = async (e) => {
@@ -45,6 +47,31 @@ const CreateCategory = () => {
   useEffect(() => {
     getAllCategory();
   }, []);
+
+  //update category
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.put(
+        `/api/category/update-category/${selected._id}`,
+        {
+          name: updatedName,
+        }
+      );
+      if (data.success) {
+        toast.success(`${updatedName} is updated`);
+        setSelected(null);
+        setupdatedName("");
+        setVisible(false);
+        getAllCategory();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong ");
+    }
+  };
   return (
     <Layout title={"Dashboard - create category"}>
       <div className="container-fluid m-3 p-3">
@@ -76,7 +103,11 @@ const CreateCategory = () => {
                       <td>
                         <button
                           className="btn btn-primary ms-2"
-                          onClick={() => setVisible(true)}
+                          onClick={() => {
+                            setVisible(true);
+                            setupdatedName(c.name);
+                            setSelected(c);
+                          }}
                         >
                           Edit
                         </button>
@@ -91,7 +122,13 @@ const CreateCategory = () => {
               onCancel={() => setVisible(false)}
               footer={null}
               visible={visible}
-            ></Modal>
+            >
+              <CategoryForm
+                value={updatedName}
+                setValue={setupdatedName}
+                handleSubmit={handleUpdate}
+              />
+            </Modal>
           </div>
         </div>
       </div>
