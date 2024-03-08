@@ -19,6 +19,7 @@ const UpdateProduct = () => {
   const [shipping, setShipping] = useState("");
   const [category, setCategory] = useState("");
   const [photo, setPhoto] = useState("");
+  const [id, setId] = useState("");
 
   //get single product
   const getSingleProduct = async () => {
@@ -27,6 +28,13 @@ const UpdateProduct = () => {
         `/api/product/get-product/${params.slug}`
       );
       setName(data.product.name);
+      setId(data.product._id);
+      setDescription(data.product.description);
+      setPrice(data.product.price);
+      setQuantity(data.product.quantity);
+      setCategory(data.product.category._id);
+      setQuantity(data.product.quantity);
+      setShipping(data.product.shipping);
     } catch (error) {}
   };
 
@@ -51,8 +59,8 @@ const UpdateProduct = () => {
     getAllCategory();
   }, []);
 
-  //create product function
-  const handleCreate = async (e) => {
+  // Inside handleUpdate function
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
       const productData = new FormData();
@@ -60,17 +68,37 @@ const UpdateProduct = () => {
       productData.append("description", description);
       productData.append("price", price);
       productData.append("quantity", quantity);
-      productData.append("photo", photo);
+      photo && productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.post("/api/product/create-product", productData);
+      const { data } = await axios.put(
+        `/api/product/update-product/${id}`,
+        productData
+      );
       if (data?.success) {
-        toast.error(data?.message);
-      } else {
-        toast.success("Product Created Successfully");
+        // Use toast.success for success message
+        toast.success("Product Updated Successfully");
+        // Navigate to the desired location after successful update
         navigate("/dashboard/admin/products");
+      } else {
+        // Use toast.error for error message
+        toast.error("Failed to update product");
       }
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
+  //delete product
+  const handleDelete = async () => {
+    try {
+      let answer = window.prompt("Are you sure want to delete this product ?");
+      if (!answer) return;
+
+      const { data } = await axios.delete(`/api/product/product-delete/${id}`);
+      toast.success(`Product deleted successfully`);
+      navigate("/dashboard/admin/products");
+    } catch (error) {
+      console.log(console.error);
       toast.error("something went wrong");
     }
   };
@@ -93,6 +121,7 @@ const UpdateProduct = () => {
                 onChange={(value) => {
                   setCategory(value);
                 }}
+                value={category}
               >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
@@ -113,15 +142,24 @@ const UpdateProduct = () => {
                 </label>
               </div>
               <div className="mb-3">
-                {photo && (
+                {photo ? (
                   <div className="text-center">
                     <img
                       src={URL.createObjectURL(photo)}
-                      alt="product_photo"
+                      alt="product_photo1"
                       height={"200px"}
                       className="img img-responsive"
                     />{" "}
                     {/* Added closing tag for img element */}
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <img
+                      src={`/api/product/product-photo/${id}`}
+                      alt="product_photo"
+                      height={"200px"}
+                      className="img img-responsive"
+                    />
                   </div>
                 )}
               </div>
@@ -175,6 +213,7 @@ const UpdateProduct = () => {
                   onChange={(value) => {
                     setShipping(value);
                   }}
+                  value={shipping ? "yes" : "no"}
                 >
                   <Option value="0">No</Option>
                   <Option value="1">Yes</Option>
@@ -182,8 +221,13 @@ const UpdateProduct = () => {
               </div>
 
               <div className="mb-3">
-                <button className="btn btn-primary" onClick={handleCreate}>
+                <button className="btn btn-primary" onClick={handleUpdate}>
                   UPDATE PRODUCT
+                </button>
+              </div>
+              <div className="mb-3">
+                <button className="btn btn-danger" onClick={handleDelete}>
+                  DELETE PRODUCT
                 </button>
               </div>
             </div>
