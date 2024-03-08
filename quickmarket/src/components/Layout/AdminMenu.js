@@ -1,9 +1,10 @@
+import { Layout } from "antd";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
 const AdminMenu = () => {
   return (
-    <>
+    <Layout>
       <div className="text-center">
         <div className="list-group">
           <h4>Admin Panel</h4>
@@ -20,6 +21,12 @@ const AdminMenu = () => {
             Create product
           </NavLink>
           <NavLink
+            to="/dashboard/admin/products"
+            className="list-group-item list-group-item-action"
+          >
+            Product
+          </NavLink>
+          <NavLink
             to="/dashboard/admin/users"
             className="list-group-item list-group-item-action"
           >
@@ -27,7 +34,7 @@ const AdminMenu = () => {
           </NavLink>
         </div>
       </div>
-    </>
+    </Layout>
   );
 };
 

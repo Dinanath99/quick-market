@@ -35,12 +35,12 @@ const CreateCategory = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get("/api/category/get-category");
-      if (data.success) {
-        setCategories(data.category);
+      if (data?.success) {
+        setCategories(data?.category);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something wwent wrong in getting catgeory");
+      toast.error("Something went wrong in getting catgeory");
     }
   };
 
@@ -72,6 +72,25 @@ const CreateCategory = () => {
       toast.error("Something went wrong ");
     }
   };
+
+  //delete category
+  const handleDelete = async (pId) => {
+    try {
+      const { data } = await axios.delete(
+        `/api/category/delete-category/${pId}`
+      );
+      if (data.success) {
+        toast.success(`category is deleted`);
+
+        getAllCategory();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong ");
+    }
+  };
+
   return (
     <Layout title={"Dashboard - create category"}>
       <div className="container-fluid m-3 p-3">
@@ -111,7 +130,14 @@ const CreateCategory = () => {
                         >
                           Edit
                         </button>
-                        <button className="btn btn-danger ms-2">Delete</button>
+                        <button
+                          className="btn btn-danger ms-2"
+                          onClick={() => {
+                            handleDelete(c._id);
+                          }}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   ))}

@@ -81,3 +81,7 @@
 form {
   padding: 25px;
 }
+.product-link {
+  text-decoration: none !important;
+  color: black !important;
+}
