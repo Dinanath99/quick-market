@@ -10,7 +10,7 @@ const Homepage = () => {
   const [categories, setCategories] = useState([]);
 
   //get products
-  const getProducts = async () => {
+  const getAllProducts = async () => {
     try {
       const { data } = await axios.get("/api/product/get-product");
       setProducts(data.products);
@@ -19,7 +19,9 @@ const Homepage = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getAllProducts();
+  }, []);
   return (
     <Layout title={"All Products - Best offers"}>
       <div className="row mt-3">
@@ -27,7 +29,7 @@ const Homepage = () => {
           <h4 className="text-center">Filter By category</h4>
         </div>
         <div className="col-md-9">
-          <h1 className="text-center" All products></h1>
+          <h1 className="text-center"> All products</h1>
           <div className="d-flex flex-wrap">
             <h1>products</h1>
           </div>
