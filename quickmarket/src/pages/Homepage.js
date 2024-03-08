@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 
 import { useAuth } from "../context/auth";
+import axios from "axios";
 
 const Homepage = () => {
   const [auth, setAuth] = useAuth();
@@ -11,8 +12,14 @@ const Homepage = () => {
   //get products
   const getProducts = async () => {
     try {
-    } catch (error) {}
+      const { data } = await axios.get("/api/product/get-product");
+      setProducts(data.products);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {}, []);
   return (
     <Layout title={"All Products - Best offers"}>
       <div className="row mt-3">
