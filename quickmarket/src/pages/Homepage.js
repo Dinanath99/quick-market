@@ -11,6 +11,8 @@ const Homepage = () => {
   const [radio, setRadio] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
+  const [Loading, setLoading] = useState(false);
+
   //get all categories
   const getAllCategory = async () => {
     try {
@@ -25,17 +27,49 @@ const Homepage = () => {
 
   useEffect(() => {
     getAllCategory();
+    getTotal();
   }, []);
 
   //get products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("/api/product/get-product");
+      setLoading(true);
+      const { data } = await axios.get(`/api/product/product-list/${page}`);
+      setLoading(false);
       setProducts(data.products);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  //getTotal count
+
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get("/api/product/product-count");
+      setTotal(data?.total);
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
+  //load more
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/api/product/product-list/${page}`);
+      setLoading(false);
+      setProducts([...products, ...data.products]);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   //filter by cat
   const handleFilter = (value, id) => {
     let all = [...checked]; // checked value assign to the all
@@ -119,6 +153,19 @@ const Homepage = () => {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="m-2 p-3">
+            {products && products.length < total && (
+              <button
+                className="btn btn-warning"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              >
+                {Loading ? "Loading..." : "Load More"}
+              </button>
+            )}
           </div>
         </div>
       </div>

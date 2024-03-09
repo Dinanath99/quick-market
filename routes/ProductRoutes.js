@@ -9,6 +9,7 @@ const {
   productFilterController,
   productCountController,
   productListController,
+  searchProductController,
 } = require("../controllers/ProductController.js");
 
 const { isAdmin, requireSignIn } = require("../middlewares/authMiddleware.js");
@@ -48,6 +49,7 @@ router.post("/product-filters", productFilterController);
 router.get("/product-count", productCountController);
 
 //product per page
-
 router.get("/product-list/:page", productListController);
+//search product
+router.get("/search", searchProductController);
 module.exports = router;

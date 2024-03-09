@@ -227,7 +227,7 @@ const productCountController = async (req, res) => {
 
 const productListController = async (req, res) => {
   try {
-    const perPage = 6;
+    const perPage = 3;
     const page = req.params.page ? req.params.page : 1;
     const products = await ProductModel.find({})
       .select("-photo")
@@ -248,6 +248,27 @@ const productListController = async (req, res) => {
     });
   }
 };
+
+// search product
+const searchProductController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const results = await ProductModel.find({
+      $or: [
+        { name: { $regex: keyword, $options: "i" } },
+        { description: { $regex: keyword, $options: "i" } },
+      ],
+    }).select("-photo");
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error in search product",
+      error,
+    });
+  }
+};
 module.exports = {
   createProductController,
   getProductController,
@@ -258,4 +279,5 @@ module.exports = {
   productFilterController,
   productCountController,
   productListController,
+  searchProductController,
 };
