@@ -178,7 +178,32 @@ const updateProductController = async (req, res) => {
     });
   }
 };
+//filters controller
+const productFilterController = async (req, res) => {
+  try {
+    const { checked, radio } = req.body;
+    let args = {};
+    if (checked.length > 0) args.catgeory = checked;
+    //$gte is greater than or equal to
+    //$lte is Less than or equal to
 
+    if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+
+    const products = await ProductModel.find(args);
+
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error in filtering product",
+      error,
+    });
+  }
+};
 module.exports = {
   createProductController,
   getProductController,
@@ -186,4 +211,5 @@ module.exports = {
   productPhotoController,
   deleteProductController,
   updateProductController,
+  productFilterController,
 };
