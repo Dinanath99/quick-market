@@ -183,7 +183,7 @@ const productFilterController = async (req, res) => {
   try {
     const { checked, radio } = req.body;
     let args = {};
-    if (checked.length > 0) args.catgeory = checked;
+    if (checked.length > 0) args.category = checked;
     //$gte is greater than or equal to
     //$lte is Less than or equal to
 

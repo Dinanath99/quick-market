@@ -45,10 +45,23 @@ const Homepage = () => {
     setChecked(all);
   };
   useEffect(() => {
-    getAllProducts();
-  }, []);
-
-  //get filtered product
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
+  //get filtered products
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post("/api/product/product-filters", {
+        checked,
+        radio,
+      });
+      setProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout title={"All Products - Best offers"}>
       <div className="row mt-3">
@@ -75,6 +88,14 @@ const Homepage = () => {
               ))}
             </Radio.Group>
           </div>
+          <div className="d-flex flex-column">
+            <button
+              className="btn btn-danger"
+              onClick={() => window.location.reload()}
+            >
+              RESET FILTERS
+            </button>
+          </div>
         </div>
         <div className="col-md-9">
           {JSON.stringify(radio, null, 4)}
@@ -89,7 +110,8 @@ const Homepage = () => {
                 />
                 <div className="card-body">
                   <h5 className="card-title">{p.name}</h5>
-                  <p className="card-text">{p.description}</p>
+                  <p className="card-text">{p.description.substring(0, 30)}</p>
+                  <p className="card-text">${p.price}</p>
                   <button class="btn btn-primary ms-1">More Details</button>
                   <button class="btn btn-secondary ms-1">ADD TO CART</button>
                 </div>
