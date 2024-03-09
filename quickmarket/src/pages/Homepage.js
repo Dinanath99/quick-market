@@ -9,6 +9,8 @@ const Homepage = () => {
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   //get all categories
   const getAllCategory = async () => {
     try {

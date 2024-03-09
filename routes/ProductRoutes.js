@@ -7,6 +7,8 @@ const {
   deleteProductController,
   updateProductController,
   productFilterController,
+  productCountController,
+  productListController,
 } = require("../controllers/ProductController.js");
 
 const { isAdmin, requireSignIn } = require("../middlewares/authMiddleware.js");
@@ -41,4 +43,11 @@ router.get("/product-photo/:pid", productPhotoController);
 router.delete("/product-delete/:pid", deleteProductController);
 //filter product
 router.post("/product-filters", productFilterController);
+
+//product count route
+router.get("/product-count", productCountController);
+
+//product per page
+
+router.get("/product-list/:page", productListController);
 module.exports = router;
