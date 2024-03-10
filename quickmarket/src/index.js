@@ -10,11 +10,13 @@ import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </BrowserRouter>
+  <AuthProvider>
+    <SearchProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </SearchProvider>
+  </AuthProvider>
 );
 
 reportWebVitals();

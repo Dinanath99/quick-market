@@ -4,6 +4,7 @@ import { useAuth } from "../context/auth";
 import toast from "react-hot-toast";
 
 import { LuShoppingBag } from "react-icons/lu";
+import SearchInput from "./Form/SearchInput";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -35,6 +36,7 @@ const Header = () => {
             <LuShoppingBag /> QuickMarket
           </Link>
           <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
+            <SearchInput />
             <li className="nav-item ">
               <NavLink to="/" className="nav-link" href="#">
                 Home <span className="sr-only"></span>
