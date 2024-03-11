@@ -10,6 +10,7 @@ const {
   productCountController,
   productListController,
   searchProductController,
+  relatedProductcontroller,
 } = require("../controllers/ProductController.js");
 
 const { isAdmin, requireSignIn } = require("../middlewares/authMiddleware.js");
@@ -52,4 +53,7 @@ router.get("/product-count", productCountController);
 router.get("/product-list/:page", productListController);
 //search product
 router.get("/search/:keyword", searchProductController);
+
+// similar product
+router.get("/related-product/:pid/:cid", relatedProductcontroller);
 module.exports = router;

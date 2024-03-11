@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 const ProductDetails = () => {
   const params = useParams();
   const [product, setProducts] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   //initial details
   useEffect(() => {
@@ -17,11 +18,20 @@ const ProductDetails = () => {
         `/api/product/get-product/${params.slug}`
       );
       setProducts(data?.product);
+      // getSimiliarProduct(data?.product._id, data?.product.category._id);
     } catch (error) {
       console.log(error);
     }
   };
-
+  // get similar product
+  const getSimiliarProduct = async (pid, cid) => {
+    try {
+      const { data } = await axios.get(
+        `/api/product/related-product/${pid}/${cid}`
+      );
+      setRelatedProducts(data?.product);
+    } catch (error) {}
+  };
   return (
     <Layout>
       <div className="row container mt-2">
@@ -43,7 +53,9 @@ const ProductDetails = () => {
           <button class="btn btn-secondary ms-1">ADD TO CART</button>
         </div>
       </div>
-      <div className="row">Similiar Products</div>
+      <div className="row">
+        <h1>similar Product</h1>
+      </div>
     </Layout>
   );
 };
