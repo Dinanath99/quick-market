@@ -5,9 +5,12 @@ import toast from "react-hot-toast";
 import { LuShoppingBag } from "react-icons/lu";
 import SearchInput from "./Form/SearchInput";
 import useCategory from "../hooks/useCategory";
+import { useCart } from "../context/Cart";
+import { Badge } from "antd";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
+  const [cart] = useCart();
   const { categories } = useCategory();
 
   const handleLogout = () => {
@@ -57,6 +60,11 @@ const Header = () => {
             </Link>
 
             <ul className="dropdown-menu">
+              <li>
+                <Link className="dropdown-item" to={`/categories`}>
+                  All categories
+                </Link>
+              </li>
               {categories.map((c) => (
                 <li key={c.id}>
                   <Link className="dropdown-item" to={`/category/${c.slug}`}>
@@ -117,9 +125,13 @@ const Header = () => {
             </>
           )}
           <li className="nav-item">
-            <NavLink to="/cart" className="nav-link" href="#">
-              cart (0)
-            </NavLink>
+            <Badge count={cart?.length} showZero>
+              <NavLink to="/cart" className="nav-link">
+                {" "}
+                {/* Fixing typo here */}
+                Cart
+              </NavLink>
+            </Badge>
           </li>
         </ul>
       </div>

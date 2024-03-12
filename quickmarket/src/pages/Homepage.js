@@ -4,8 +4,12 @@ import axios from "axios";
 import { Checkbox, Radio } from "antd"; // importing Checkbox and radio from ant design
 import { Prices } from "../components/Prices";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/Cart";
+import toast from "react-hot-toast";
+import { Badge } from "antd";
 const Homepage = () => {
   const navigate = useNavigate();
+  const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
@@ -155,7 +159,15 @@ const Homepage = () => {
                   >
                     More Details
                   </button>
-                  <button class="btn btn-secondary ms-1">ADD TO CART</button>
+                  <button
+                    class="btn btn-secondary ms-1"
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      toast.success("Item added to cart");
+                    }}
+                  >
+                    ADD TO CART
+                  </button>
                 </div>
               </div>
             ))}

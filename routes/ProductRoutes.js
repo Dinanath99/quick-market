@@ -11,6 +11,7 @@ const {
   productListController,
   searchProductController,
   relatedProductcontroller,
+  productCategoryController,
 } = require("../controllers/ProductController.js");
 
 const { isAdmin, requireSignIn } = require("../middlewares/authMiddleware.js");
@@ -56,4 +57,8 @@ router.get("/search/:keyword", searchProductController);
 
 // similar product
 router.get("/related-product/:pid/:cid", relatedProductcontroller);
+
+//category wise product
+router.get("/product-category/:slug", productCategoryController);
+
 module.exports = router;
