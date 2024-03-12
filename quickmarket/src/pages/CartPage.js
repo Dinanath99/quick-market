@@ -9,6 +9,22 @@ const CartPage = () => {
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
 
+  //total price
+  const totalprice = () => {
+    try {
+      let total = 0;
+      cart?.map((item) => {
+        total = total + item.price;
+      });
+      return total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // delete item
   const removeCartItem = (pid) => {
     try {
@@ -70,7 +86,39 @@ const CartPage = () => {
             <h2>Cart Summary</h2>
             <p>Total | chekout | Payment</p>
             <hr />
-            <h4>Total :</h4>
+            <h4>Total :{totalprice()}</h4>
+            {auth?.user?.address ? (
+              <>
+                <div className="mb-3">
+                  <h4>Current Address</h4>
+                  <h5>{auth?.user?.address}</h5>
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/dashboard/user/profile")}
+                  >
+                    Update Address
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="mb-3">
+                {auth?.token ? (
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/dashboard/user/profile")}
+                  >
+                    Update Address
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-outline-warning"
+                    onClick={() => navigate("/login", { state: "/cart" })}
+                  >
+                    Please login to checkout
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
