@@ -12,6 +12,8 @@ const {
   searchProductController,
   relatedProductcontroller,
   productCategoryController,
+  braintreeTokenController,
+  braintreePaymentController,
 } = require("../controllers/ProductController.js");
 
 const { isAdmin, requireSignIn } = require("../middlewares/authMiddleware.js");
@@ -60,5 +62,12 @@ router.get("/related-product/:pid/:cid", relatedProductcontroller);
 
 //category wise product
 router.get("/product-category/:slug", productCategoryController);
+
+//payments route
+//token
+router.get("/braintree/token", braintreeTokenController);
+
+//payments
+router.post("/braintree/payment", requireSignIn, braintreePaymentController);
 
 module.exports = router;
