@@ -1,3 +1,5 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const ProductModel = require("../models/ProductModel.js");
 const fs = require("fs");
 const slugify = require("slugify");
@@ -345,38 +347,80 @@ const braintreeTokenController = async (req, res) => {
 };
 
 //payment
+// const braintreePaymentController = async (req, res) => {
+//   try {
+//     const { nonce, cart } = req.body;
+//     let total = 0;
+//     cart.map((i) => {
+//       total += i.price;
+//     });
+//     let newTransaction = gateway.transaction.sale(
+//       {
+//         amount: total,
+//         paymentMethodNonce: nonce,
+//         options: {
+//           submitForSettlement: true,
+//         },
+//       },
+//       function (error, result) {
+//         if (result) {
+//           const order = new orderModel({
+//             products: cart,
+//             payment: result,
+//             buyer: req.user._id,
+//           }).save();
+//           res.json({ ok: true });
+//         } else {
+//           res.status(500).send(error);
+//         }
+//       }
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 const braintreePaymentController = async (req, res) => {
   try {
     const { nonce, cart } = req.body;
     let total = 0;
-    cart.map((i) => {
-      total += i.price;
+    cart.forEach((item) => {
+      total += item.price;
     });
-    let newTransaction = gateway.transaction.sale(
+
+    gateway.transaction.sale(
       {
-        amount: total,
+        amount: total.toFixed(2), // Make sure the amount is formatted properly
         paymentMethodNonce: nonce,
         options: {
           submitForSettlement: true,
         },
       },
-      function (error, result) {
-        if (result) {
-          const order = new orderModel({
-            products: cart,
-            payment: result,
-            buyer: req.user._id,
-          }).save();
-          res.json({ ok: true });
-        } else {
-          res.status(500).send(error);
+      async function (error, result) {
+        try {
+          if (result) {
+            // Assuming orderModel.save() returns a promise
+            await new orderModel({
+              products: cart,
+              payment: result,
+              buyer: req.user._id, // Assuming you have user authentication middleware to set req.user
+            }).save();
+            res.json({ ok: true });
+          } else {
+            res.status(500).send(error);
+          }
+        } catch (error) {
+          console.log(error);
+          res.status(500).send(error); // Handle error
         }
       }
     );
   } catch (error) {
     console.log(error);
+    res.status(500).send(error); // Handle error
   }
 };
+
 module.exports = {
   createProductController,
   getProductController,
