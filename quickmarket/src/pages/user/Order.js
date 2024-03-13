@@ -52,16 +52,37 @@ const Order = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <th>{i + 1}</th>
-                      <th>{o?.status}</th>
-                      <th>{o?.buyer?.name}</th>
-                      <th>{moment(o?.createAt).fromNow()}</th>
-                      <th>{o?.payment.success ? "success" : "failed"}</th>
-                      <th>{o?.products?.length}</th>
+                      <td>{i + 1}</td>
+                      <td>{o?.status}</td>
+                      <td>{o?.buyer?.name}</td>
+                      <td>{moment(o?.createAt).fromNow()}</td>
+                      <td>{o?.payment.success ? "success" : "failed"}</td>
+                      <td>{o?.products?.length}</td>
                       {/* Add other columns accordingly based on your order object */}
                     </tr>
                   </tbody>
                 </table>
+
+                <div className="container">
+                  {o?.products?.map((p, i) => (
+                    <div className="row mb-2 p-3 card flex-row" key={p.id}>
+                      <div className="col-md-4">
+                        <img
+                          src={`/api/product/product-photo/${p._id}`}
+                          className="card-img-top"
+                          alt={p.name}
+                          width="300px"
+                          height="300px"
+                        />
+                      </div>
+                      <div className="col-md-8">
+                        <h4>{p.name}</h4>
+                        <p>{p.description.substring(0, 30)}</p>
+                        <h4>Price :{p.price}</h4>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>

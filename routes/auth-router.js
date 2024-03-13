@@ -38,4 +38,12 @@ router.put("/profile", requireSignIn, authcontroller.updateProfileController);
 //orderse
 router.get("/orders", requireSignIn, authcontroller.getOrdersController);
 
+//all orders
+router.get(
+  "/all-orders",
+  requireSignIn,
+  isAdmin,
+  authcontroller.getAllOrdersController
+);
+
 module.exports = router;

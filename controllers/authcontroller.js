@@ -181,6 +181,24 @@ const getOrdersController = async (req, res) => {
     });
   }
 };
+const getAllOrdersController = async (req, res) => {
+  // Add req and res parameters
+  try {
+    const orders = await orderModel
+      .find({})
+      .populate("products", "-photo")
+      .populate("buyer", "name");
+    // .sort({ createdAt: "-1" }); // Change "buyers" to "buyer" and "buyers" to "buyer"
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while getting orders",
+      error,
+    });
+  }
+};
 
 module.exports = {
   registerControler,
@@ -189,4 +207,5 @@ module.exports = {
   forgotPasswordController,
   updateProfileController,
   getOrdersController,
+  getAllOrdersController,
 };
