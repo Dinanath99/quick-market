@@ -70,18 +70,4 @@
   margin-top: 10px;
 }
 
-/* ======================= Regiser page css */
-.register {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 70vh;
-}
-form {
-  padding: 25px;
-}
-.product-link {
-  text-decoration: none !important;
-  color: black !important;
-}
+/* homepage styling */

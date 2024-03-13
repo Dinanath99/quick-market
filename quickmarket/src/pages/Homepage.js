@@ -7,6 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/Cart";
 import toast from "react-hot-toast";
 import { Badge } from "antd";
+import "../styles/Homepage.css";
+
+//importing css for homepage
+
 const Homepage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
@@ -105,6 +109,13 @@ const Homepage = () => {
   };
   return (
     <Layout title={"All Products - Best offers"}>
+      <img
+        src="/images/banner.png"
+        className="banner-img"
+        alt="bannerimage"
+        width={"100%"}
+        height={"200px"}
+      />
       <div className="row mt-3">
         <div className="col-md-2">
           <h4 className="text-center">Filter By category</h4>

@@ -33,7 +33,17 @@ const AdminOrder = () => {
       getOrders();
     }
   }, [auth?.token]);
-
+  //handlechange
+  const handleChange = async (orderId, value) => {
+    try {
+      const { data } = await axios.put(`/api/order-status/${orderId}`, {
+        status: value,
+      });
+      getOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout title={"All Orders Data"}>
       <div className="row">
@@ -58,7 +68,19 @@ const AdminOrder = () => {
                 <tbody>
                   <tr>
                     <td>{i + 1}</td>
-                    <td>{o?.status}</td>
+                    <td>
+                      <Select
+                        bordered={false}
+                        onChange={(value) => handleChange(o._id, value)}
+                        defaultValue={o?.status}
+                      >
+                        {status.map((s, i) => (
+                          <Option key={s} value={status}>
+                            {s}
+                          </Option>
+                        ))}
+                      </Select>
+                    </td>
                     <td>{o?.buyer?.name}</td>
                     <td>{moment(o?.createAt).fromNow()}</td>
                     <td>{o?.payment.success ? "success" : "failed"}</td>

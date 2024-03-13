@@ -45,5 +45,11 @@ router.get(
   isAdmin,
   authcontroller.getAllOrdersController
 );
-
+//order status update
+router.put(
+  "/order-status/:orderId",
+  requireSignIn,
+  isAdmin,
+  authcontroller.orderStatusController
+);
 module.exports = router;
