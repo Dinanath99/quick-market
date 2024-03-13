@@ -5,6 +5,9 @@ import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout";
 import { useAuth } from "../../context/auth";
 import moment from "moment";
+import { Select } from "antd";
+const { Option } = Select;
+
 const AdminOrder = () => {
   const [status, setStatus] = useState([
     "Not Process",
@@ -64,6 +67,27 @@ const AdminOrder = () => {
                   </tr>
                 </tbody>
               </table>
+
+              <div className="container">
+                {o?.products?.map((p, i) => (
+                  <div className="row mb-2 p-3 card flex-row" key={p.id}>
+                    <div className="col-md-4">
+                      <img
+                        src={`/api/product/product-photo/${p._id}`}
+                        className="card-img-top"
+                        alt={p.name}
+                        width="300px"
+                        height="300px"
+                      />
+                    </div>
+                    <div className="col-md-8">
+                      <h4>{p.name}</h4>
+                      <p>{p.description.substring(0, 30)}</p>
+                      <h4>Price :{p.price}</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
