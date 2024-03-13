@@ -33,4 +33,9 @@ router.get("/admin-auth", requireSignIn, isAdmin, (req, res) => {
 
 //update profile
 router.put("/profile", requireSignIn, authcontroller.updateProfileController);
+
+//orderse;
+//orderse
+router.get("/orders", requireSignIn, authcontroller.getOrdersController);
+
 module.exports = router;

@@ -1,4 +1,6 @@
 const userModel = require("../models/userModel.js");
+
+const orderModel = require("../models/orderModel.js");
 const { hashPassword, comparePassword } = require("../helpers/authHelper.js");
 var jwt = require("jsonwebtoken");
 
@@ -160,10 +162,31 @@ const updateProfileController = async (req, res) => {
     });
   }
 };
+
+//order
+const getOrdersController = async (req, res) => {
+  // Add req and res parameters
+  try {
+    const orders = await orderModel
+      .find({ buyer: req.user._id })
+      .populate("products", "-photo")
+      .populate("buyer", "name"); // Change "buyers" to "buyer" and "buyers" to "buyer"
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while getting orders",
+      error,
+    });
+  }
+};
+
 module.exports = {
   registerControler,
   Loginrouter,
   testController,
   forgotPasswordController,
   updateProfileController,
+  getOrdersController,
 };
